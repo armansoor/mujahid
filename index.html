@@ -241,7 +241,7 @@
                         </div>
                     </section>
 
-                    {/* Videos Section */}
+                     {/* Videos Section */}
                     <section id="latest" className="py-24 relative z-10">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 bg-white/5 backdrop-blur-lg border border-white/10 p-8 rounded-3xl shadow-xl">
@@ -274,4 +274,198 @@
                                             <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                                             <div className="p-3">
                                                 <div className="relative overflow-hidden rounded-2xl">
-                                                    <img src={video.thumbnail
+                                                    <img src={video.thumbnail} alt={video.title} className="w-full h-52 object-cover transform group-hover:scale-105 transition-transform duration-700" />
+                                                    <div className="absolute inset-0 bg-emerald-900/40 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                        <div className="w-16 h-16 bg-white/20 backdrop-blur-md border border-white/40 rounded-full flex items-center justify-center text-white shadow-2xl transform scale-90 group-hover:scale-100 transition-transform bg-red-600/90 border-red-500">
+                                                            <i className="fa-solid fa-play text-2xl ml-1"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="p-6 pt-2 flex flex-col flex-grow relative z-10">
+                                                <h3 className="font-bold text-xl text-white line-clamp-2 mb-4 group-hover:text-amber-300 transition-colors leading-snug">{video.title}</h3>
+                                                <div className="mt-auto flex items-center justify-between">
+                                                    <div className="flex items-center gap-2 text-sm text-emerald-100/60 font-medium bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
+                                                        <i className="fa-regular fa-clock"></i> {video.date}
+                                                    </div>
+                                                    <span className="text-amber-400 text-sm font-bold uppercase tracking-wider flex items-center gap-1 group-hover:text-white transition-colors">
+                                                        Play Now <i className="fa-regular fa-circle-play"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </section>
+
+                    {/* Programs Section */}
+                    <section id="programs" className="py-24 relative z-10">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-16">
+                                <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 text-white drop-shadow-md">Educational Programs</h2>
+                                <div className="w-24 h-1 bg-amber-500 mx-auto rounded-full mb-6"></div>
+                                <p className="text-emerald-100/80 max-w-2xl mx-auto text-lg">Structured learning and regular spiritual gatherings covering various aspects of authentic Islamic knowledge.</p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {categories.map((cat, index) => (
+                                    <a key={index} href={cat.link} target="_blank" rel="noreferrer" className="block bg-white/5 backdrop-blur-lg border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition-all duration-300 group hover:-translate-y-2 shadow-xl relative">
+                                        <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <i className="fa-solid fa-arrow-up-right-from-square text-amber-400/50"></i>
+                                        </div>
+                                        <div className="w-16 h-16 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-white/20 rounded-2xl flex items-center justify-center text-amber-400 mb-6 group-hover:scale-110 group-hover:bg-amber-500/20 group-hover:border-amber-400/50 transition-all duration-300 shadow-inner">
+                                            <i className={`fa-solid ${cat.icon} text-2xl`}></i>
+                                        </div>
+                                        <h3 className="text-xl font-bold mb-4 text-white group-hover:text-amber-300 transition-colors">{cat.title}</h3>
+                                        <p className="text-emerald-50/70 leading-relaxed text-sm">{cat.desc}</p>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* About Section */}
+                    <section id="about" className="py-24 relative z-10">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[3rem] p-8 md:p-12 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]">
+                                <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                                    <div className="lg:w-1/2 relative w-full flex justify-center">
+                                        <div className="absolute -inset-4 bg-gradient-to-tr from-amber-500/20 to-emerald-500/20 rounded-[3rem] blur-xl z-0"></div>
+                                        <img src="7716e2d3-eb47-4c51-a5b1-31ffc0921f00-1_all_37441.jpg" alt="Dr. Mufti Mujahid Ali Qasmi" className="relative z-10 rounded-3xl shadow-2xl w-full max-w-sm h-auto aspect-[3/4] object-cover object-top border border-white/20 bg-emerald-900" />
+                                    </div>
+                                    <div className="lg:w-1/2">
+                                        <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-amber-400 text-sm font-bold tracking-widest mb-6">BIOGRAPHY</div>
+                                        <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">Dr. MUFTI MUJAHID ALI QASMI</h2>
+                                        <div className="space-y-6 text-emerald-50/80 text-lg leading-relaxed mb-10">
+                                            <p>A dedicated Islamic scholar committed to spreading the authentic teachings of Islam. With a profound understanding of classical texts, he bridges the gap between historical wisdom and contemporary challenges.</p>
+                                            <p>He regularly delivers Friday sermons (Khutbahs) at <span className="text-amber-300 font-semibold">Masjid E Rahmath</span> in Banjara Hills, Hyderabad, and conducts special lectures at institutions like <span className="text-amber-300 font-semibold">Misbah Ul Uloom</span>. His teachings cover a wide array of subjects including Fiqh (Jurisprudence), Tafseer (Quranic Exegesis), and Hadees.</p>
+                                        </div>
+                                        <div className="space-y-6">
+                                            <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10">
+                                                <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-amber-400 flex-shrink-0">
+                                                    <i className="fa-solid fa-envelope text-xl"></i>
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-bold text-white">Email Address</h4>
+                                                    <p className="text-emerald-100/60 text-sm break-all">muftimujahid@gmail.com</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10">
+                                                <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-amber-400 flex-shrink-0">
+                                                    <i className="fa-solid fa-phone text-xl"></i>
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-bold text-white">Phone / WhatsApp</h4>
+                                                    <p className="text-emerald-100/60 text-sm">+91-9700440940 (Masail)</p>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10">
+                                                <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-amber-400 flex-shrink-0">
+                                                    <i className="fa-brands fa-youtube text-xl"></i>
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-bold text-white">Official Channel</h4>
+                                                    <p className="text-emerald-100/60 text-sm">@drmuftimujahid</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+        {/* Contact Form */}
+                    <section id="contact" className="py-24 relative z-10">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex flex-col lg:flex-row gap-16">
+                                <div className="lg:w-5/12">
+                                    <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-amber-400 text-sm font-bold tracking-widest mb-6">GET IN TOUCH</div>
+                                    <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">Send a Message</h2>
+                                    <p className="text-emerald-100/70 text-lg mb-10 leading-relaxed">If you have a question regarding a specific Masail, or wish to invite Mufti Sahab for a Bayan, please send a message using the secure form.</p>
+                                </div>
+                                <div className="lg:w-7/12">
+                                    <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 shadow-2xl relative overflow-hidden">
+                                        {formStatus === 'success' && (
+                                            <div className="absolute inset-0 z-20 bg-emerald-950/90 backdrop-blur-md flex flex-col items-center justify-center text-center p-8 animate-in fade-in duration-500">
+                                                <i className="fa-solid fa-circle-check text-5xl text-emerald-400 mb-6"></i>
+                                                <h3 className="text-3xl font-serif font-bold text-white mb-3">Message Prepared!</h3>
+                                                <p className="text-emerald-100/80 text-lg">Your email app should now be open to send the message.</p>
+                                            </div>
+                                        )}
+                                        <form onSubmit={handleFormSubmit} className="space-y-6 relative z-10">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div>
+                                                    <label className="block text-sm font-medium text-emerald-100/80 mb-2">Your Name</label>
+                                                    <input required type="text" name="name" value={formData.name} onChange={handleInputChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all" placeholder="e.g. Abdullah" />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium text-emerald-100/80 mb-2">Email Address</label>
+                                                    <input required type="email" name="email" value={formData.email} onChange={handleInputChange} className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all" placeholder="your@email.com" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label className="block text-sm font-medium text-emerald-100/80 mb-2">Your Message / Query</label>
+                                                <textarea required name="message" value={formData.message} onChange={handleInputChange} rows="5" className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 transition-all resize-none" placeholder="Type your message or masail query here..."></textarea>
+                                            </div>
+                                            <button disabled={formStatus === 'submitting'} type="submit" className="w-full bg-amber-500 hover:bg-amber-400 text-emerald-950 px-8 py-4 rounded-xl font-bold transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-70">
+                                                {formStatus === 'submitting' ? <><i className="fa-solid fa-spinner fa-spin text-lg"></i> Preparing...</> : <><i className="fa-solid fa-paper-plane text-lg"></i> Send Message</>}
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="relative z-10 border-t border-white/10 bg-black/40 backdrop-blur-lg pt-16 pb-8">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                                <div>
+                                    <div className="flex items-center gap-3 mb-6" onClick={(e) => scrollToSection(e, 'home')}>
+                                        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-emerald-950 font-serif font-bold text-xl shadow-lg cursor-pointer">MQ</div>
+                                        <span className="font-serif font-bold text-xl text-white cursor-pointer">Dr. Mufti Mujahid Ali</span>
+                                    </div>
+                                    <p className="text-emerald-100/60 text-sm leading-relaxed max-w-sm">Dedicated to providing authentic Islamic knowledge, daily guidance, and spiritual awakening through the teachings of Quran and Sunnah.</p>
+                                </div>
+                                <div>
+                                    <h4 className="text-white font-bold text-lg mb-6">Quick Links</h4>
+                                    <ul className="space-y-4 text-emerald-100/60">
+                                        {['home', 'latest', 'programs', 'contact'].map(item => (
+                                            <li key={item}>
+                                                <a href={`#${item}`} onClick={(e) => scrollToSection(e, item)} className="hover:text-amber-400 transition-colors flex items-center gap-2 capitalize">
+                                                    <i className="fa-solid fa-chevron-right text-xs"></i> {item === 'latest' ? 'Videos' : item}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 className="text-white font-bold text-lg mb-6">Connect</h4>
+                                    <div className="flex gap-4 mb-6">
+                                        <a href="https://www.youtube.com/@drmuftimujahid" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-red-600 hover:border-red-500 text-white transition-all shadow-lg hover:scale-110">
+                                            <i className="fa-brands fa-youtube text-xl"></i>
+                                        </a>
+                                    </div>
+                                    <p className="flex items-center gap-2 text-emerald-100/60 text-sm mb-2"><i className="fa-solid fa-location-dot text-amber-400 w-4"></i> Hyderabad, India</p>
+                                    <p className="flex items-center gap-2 text-emerald-100/60 text-sm mb-2"><i className="fa-solid fa-phone text-amber-400 w-4"></i> +91-9700440940</p>
+                                    <p className="flex items-center gap-2 text-emerald-100/60 text-sm"><i className="fa-solid fa-envelope text-amber-400 w-4"></i> muftimujahid@gmail.com</p>
+                                </div>
+                            </div>
+                            <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-emerald-100/40">
+                                <p>&copy; {new Date().getFullYear()} Dr. Mufti Mujahid Ali Qasmi. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
