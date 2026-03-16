@@ -37,7 +37,7 @@ const { useState, useEffect } = React;
             useEffect(() => {
                 const handleScroll = () => {
                     setIsScrolled(window.scrollY > 50);
-                    const sections = ['home', 'latest', 'programs', 'about', 'contact'];
+                    const sections = ['home', 'latest', 'programs', 'services', 'about', 'contact'];
                     let current = 'home';
                     for (const section of sections) {
                         const element = document.getElementById(section);
@@ -168,6 +168,16 @@ const { useState, useEffect } = React;
                 { title: 'Daily Masail', icon: 'fa-heart', desc: 'Practical guidance explaining the rulings of Islam for daily life.', link: 'https://www.youtube.com/@drmuftimujahid/playlists' }
             ];
 
+            const servicesData = [
+                { title: 'Islamic Studies', icon: 'fa-graduation-cap', desc: 'Comprehensive foundation in authentic Islamic knowledge, history, and principles.' },
+                { title: 'Quran Tajweed', icon: 'fa-book-quran', desc: 'Master the proper pronunciation and articulation rules for reciting the Holy Quran.' },
+                { title: 'Translation', icon: 'fa-language', desc: 'In-depth translation and exegesis of classical Islamic texts and scriptures.' },
+                { title: 'Hadith', icon: 'fa-book', desc: 'Study the sayings, actions, and approvals of Prophet Muhammad (PBUH).' },
+                { title: 'Fiqh', icon: 'fa-scale-balanced', desc: 'Understanding Islamic jurisprudence and practical rulings for daily life.' },
+                { title: 'Alim Course', icon: 'fa-certificate', desc: 'Complete, rigorous training on the Quran and Hadith to become a qualified scholar.' },
+                { title: 'Mufti Training', icon: 'fa-pen-nib', desc: 'Advanced training in Quran, Hadith, and Fiqh, qualifying one to issue religious edicts (Fatawa).' }
+            ];
+
             return (
                 <div className="min-h-screen bg-gradient-to-br from-emerald-950 via-teal-900 to-slate-900 font-sans text-stone-100 selection:bg-amber-500/30">
 
@@ -201,7 +211,7 @@ const { useState, useEffect } = React;
                                 </div>
 
                                 <div className="hidden md:flex items-center space-x-8">
-                                    {['home', 'latest', 'programs', 'about', 'contact'].map((item) => (
+                                {['home', 'latest', 'programs', 'services', 'about', 'contact'].map((item) => (
                                         <a key={item} href={`#${item}`} onClick={(e) => scrollToSection(e, item)} className={`text-sm font-medium transition-colors capitalize ${activeSection === item ? 'text-amber-400' : 'text-white/80 hover:text-amber-400'}`}>
                                             {item === 'latest' ? 'Videos' : item}
                                         </a>
@@ -220,7 +230,7 @@ const { useState, useEffect } = React;
                         {/* Mobile Menu */}
                         {mobileMenuOpen && (
                             <div className="md:hidden absolute top-full left-4 right-4 mt-2 bg-emerald-950/95 backdrop-blur-2xl border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] rounded-2xl py-6 flex flex-col items-center space-y-5">
-                                {['home', 'latest', 'programs', 'about', 'contact'].map((item) => (
+                                {['home', 'latest', 'programs', 'services', 'about', 'contact'].map((item) => (
                                     <a key={item} href={`#${item}`} onClick={(e) => scrollToSection(e, item)} className={`text-lg font-medium capitalize ${activeSection === item ? 'text-amber-400' : 'text-white'}`}>
                                         {item === 'latest' ? 'Latest Videos' : item}
                                     </a>
@@ -370,6 +380,32 @@ const { useState, useEffect } = React;
                         </div>
                     </section>
 
+                    {/* Services Section */}
+                    <section id="services" className="py-24 relative z-10 bg-black/20">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-16">
+                                <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 text-white drop-shadow-md">Our Services & Specializations</h2>
+                                <div className="w-24 h-1 bg-amber-500 mx-auto rounded-full mb-6"></div>
+                                <p className="text-emerald-100/80 max-w-2xl mx-auto text-lg">Comprehensive Islamic education ranging from foundational studies to advanced scholarly training.</p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                {servicesData.map((service, index) => (
+                                    <div key={index} className="flex flex-col bg-white/5 backdrop-blur-lg border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition-all duration-300 shadow-xl group hover:-translate-y-1">
+                                        <div className="w-16 h-16 bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-white/20 rounded-2xl flex items-center justify-center text-amber-400 mb-6 group-hover:scale-110 group-hover:bg-amber-500/30 transition-all duration-300 shadow-inner">
+                                            <i className={`fa-solid ${service.icon} text-2xl`}></i>
+                                        </div>
+                                        <h3 className="text-xl font-bold mb-3 text-white group-hover:text-amber-300 transition-colors">{service.title}</h3>
+                                        <p className="text-emerald-50/70 leading-relaxed text-sm mb-6 flex-grow">{service.desc}</p>
+                                        <button onClick={(e) => scrollToSection(e, 'contact')} className="mt-auto w-full bg-white/10 hover:bg-amber-500 hover:text-emerald-950 text-white border border-white/20 px-4 py-3 rounded-xl font-medium transition-all backdrop-blur-sm flex items-center justify-center gap-2 group/btn">
+                                            Contact Us <i className="fa-solid fa-arrow-right text-sm group-hover/btn:translate-x-1 transition-transform"></i>
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
                     {/* About Section */}
                     <section id="about" className="py-24 relative z-10">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -487,7 +523,7 @@ const { useState, useEffect } = React;
                                 <div>
                                     <h4 className="text-white font-bold text-lg mb-6">Quick Links</h4>
                                     <ul className="space-y-4 text-emerald-100/60">
-                                        {['home', 'latest', 'programs', 'contact'].map(item => (
+                                        {['home', 'latest', 'programs', 'services', 'contact'].map(item => (
                                             <li key={item}>
                                                 <a href={`#${item}`} onClick={(e) => scrollToSection(e, item)} className="hover:text-amber-400 transition-colors flex items-center gap-2 capitalize">
                                                     <i className="fa-solid fa-chevron-right text-xs"></i> {item === 'latest' ? 'Videos' : item}
