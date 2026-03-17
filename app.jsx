@@ -37,21 +37,39 @@ const { useState, useEffect } = React;
             useEffect(() => {
                 const handleScroll = () => {
                     setIsScrolled(window.scrollY > 50);
-                    const sections = ['home', 'latest', 'programs', 'services', 'about', 'contact'];
-                    let current = 'home';
-                    for (const section of sections) {
-                        const element = document.getElementById(section);
-                        if (element) {
-                            const rect = element.getBoundingClientRect();
-                            if (rect.top <= 150 && rect.bottom >= 150) {
-                                current = section;
-                            }
-                        }
-                    }
-                    setActiveSection(current);
                 };
-                window.addEventListener('scroll', handleScroll);
+                window.addEventListener('scroll', handleScroll, { passive: true });
                 return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            useEffect(() => {
+                const sections = ['home', 'latest', 'programs', 'services', 'about', 'contact'];
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                setActiveSection(entry.target.id);
+                            }
+                        });
+                    },
+                    { rootMargin: '-150px 0px -150px 0px', threshold: 0.1 }
+                );
+
+                sections.forEach((sectionId) => {
+                    const element = document.getElementById(sectionId);
+                    if (element) {
+                        observer.observe(element);
+                    }
+                });
+
+                return () => {
+                    sections.forEach((sectionId) => {
+                        const element = document.getElementById(sectionId);
+                        if (element) {
+                            observer.unobserve(element);
+                        }
+                    });
+                };
             }, []);
 
             const scrollToSection = (e, sectionId) => {
@@ -113,6 +131,17 @@ const { useState, useEffect } = React;
                 e.preventDefault();
                 setFormStatus('submitting');
 
+                // Basic validation (although HTML5 required attributes handle most of this)
+                const sanitizedName = formData.name.trim().replace(/<[^>]*>?/gm, ''); // Basic strip HTML
+                const sanitizedEmail = formData.email.trim();
+                const sanitizedMessage = formData.message.trim().replace(/<[^>]*>?/gm, ''); // Basic strip HTML
+
+                if (!sanitizedName || !sanitizedEmail || !sanitizedMessage) {
+                    alert("Please fill out all fields with valid information.");
+                    setFormStatus('idle');
+                    return;
+                }
+
                 try {
                     const response = await fetch('https://formsubmit.co/ajax/muftimujahid@gmail.com', {
                         method: 'POST',
@@ -121,10 +150,10 @@ const { useState, useEffect } = React;
                             'Accept': 'application/json'
                         },
                         body: JSON.stringify({
-                            name: formData.name,
-                            email: formData.email,
-                            message: formData.message,
-                            _subject: `New Message from ${formData.name} via Website`,
+                            name: sanitizedName,
+                            email: sanitizedEmail,
+                            message: sanitizedMessage,
+                            _subject: `New Message from ${sanitizedName} via Website`,
                             _captcha: "false"
                         })
                     });
@@ -181,11 +210,11 @@ const { useState, useEffect } = React;
             return (
                 <div className="min-h-screen bg-gradient-to-br from-emerald-950 via-teal-900 to-slate-900 font-sans text-stone-100 selection:bg-amber-500/30">
 
-                    {/* Background Orbs */}
+                    {/* Background Orbs (Optimized with hardware acceleration) */}
                     <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-                        <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-emerald-500/20 rounded-full blur-[120px]"></div>
-                        <div className="absolute top-[40%] right-[-5%] w-[30rem] h-[30rem] bg-amber-500/10 rounded-full blur-[150px]"></div>
-                        <div className="absolute bottom-[-10%] left-[20%] w-[40rem] h-[40rem] bg-teal-500/20 rounded-full blur-[130px]"></div>
+                        <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-emerald-500/20 rounded-full blur-[120px] transform-gpu will-change-transform"></div>
+                        <div className="absolute top-[40%] right-[-5%] w-[30rem] h-[30rem] bg-amber-500/10 rounded-full blur-[150px] transform-gpu will-change-transform"></div>
+                        <div className="absolute bottom-[-10%] left-[20%] w-[40rem] h-[40rem] bg-teal-500/20 rounded-full blur-[130px] transform-gpu will-change-transform"></div>
                     </div>
 
                     {/* Video Player Modal */}
@@ -196,7 +225,7 @@ const { useState, useEffect } = React;
                                 <button onClick={() => setActiveVideoId(null)} className="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors border border-white/20">
                                     <i className="fa-solid fa-xmark text-lg"></i>
                                 </button>
-                                <iframe src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full"></iframe>
+                                <iframe loading="lazy" src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full"></iframe>
                             </div>
                         </div>
                     )}
@@ -327,7 +356,7 @@ const { useState, useEffect } = React;
                                             <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                                             <div className="p-3">
                                                 <div className="relative overflow-hidden rounded-2xl">
-                                                    <img src={video.thumbnail} alt={video.title} className="w-full h-52 object-cover transform group-hover:scale-105 transition-transform duration-700" />
+                                                    <img loading="lazy" src={video.thumbnail} alt={video.title} className="w-full h-52 object-cover transform group-hover:scale-105 transition-transform duration-700 will-change-transform" />
                                                     <div className="absolute inset-0 bg-emerald-900/40 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                                         <div className="w-16 h-16 bg-white/20 backdrop-blur-md border border-white/40 rounded-full flex items-center justify-center text-white shadow-2xl transform scale-90 group-hover:scale-100 transition-transform bg-red-600/90 border-red-500">
