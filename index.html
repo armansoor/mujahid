@@ -24,24 +24,33 @@
     <meta property="twitter:description" content="Dedicated to providing authentic Islamic knowledge, daily guidance, and spiritual awakening through the teachings of Quran and Sunnah.">
     <meta property="twitter:image" content="https://ui-avatars.com/api/?name=Mufti+Mujahid&background=065f46&color=fcd34d&size=512">
 
+    <!-- Preconnect to domains -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://api.socialcounts.org" crossorigin>
+    <link rel="preconnect" href="https://api.rss2json.com" crossorigin>
+    <link rel="preconnect" href="https://formsubmit.co" crossorigin>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- FontAwesome Icons (loaded asynchronously) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     
     <!-- React & ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js" defer></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" defer></script>
     
     <!-- Babel (Compiles JSX in the browser) -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js" defer></script>
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-emerald-950">
     <div id="root"></div>
 
-    <script type="text/babel" src="app.jsx"></script>
+    <script type="text/babel" src="app.jsx" defer></script>
 </body>
 </html>
