@@ -565,7 +565,7 @@ function App() {
     className: "text-xl md:text-2xl font-bold text-white mb-2 font-serif"
   }, "Enjoying the video?"), /*#__PURE__*/React.createElement("p", {
     className: "text-emerald-100/80 text-sm md:text-base"
-  }, "Subscribe to Dr. Mufti Mujahid Ali Qasmi's channel for daily guidance and authentic Islamic knowledge.")), /*#__PURE__*/React.createElement("a", {
+  }, "Subscribe to Dr. Mufti Mohammad Mujahid Ali Qasmi's channel for daily guidance and authentic Islamic knowledge.")), /*#__PURE__*/React.createElement("a", {
     href: "https://www.youtube.com/@drmuftimujahid?sub_confirmation=1",
     target: "_blank",
     rel: "noreferrer",
@@ -587,7 +587,7 @@ function App() {
     className: "w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-emerald-950 font-serif font-bold text-xl shadow-lg"
   }, "MQ"), /*#__PURE__*/React.createElement("span", {
     className: "font-serif font-bold text-lg md:text-xl tracking-wide text-white drop-shadow-md"
-  }, "Dr. Mufti Mujahid Ali Qasmi")), /*#__PURE__*/React.createElement("div", {
+  }, "Dr. Mufti Mohammad Mujahid Ali Qasmi")), /*#__PURE__*/React.createElement("div", {
     className: "hidden md:flex items-center space-x-8"
   }, ['home', 'latest', 'programs', 'services', 'about', 'contact'].map(function (item) {
     return /*#__PURE__*/React.createElement("a", {
@@ -672,7 +672,7 @@ function App() {
     className: "text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-6 leading-tight drop-shadow-2xl"
   }, /*#__PURE__*/React.createElement("span", {
     className: "block text-amber-400/90 text-2xl md:text-4xl mb-2 tracking-widest uppercase"
-  }, "Dr."), "MUFTI MUJAHID ", /*#__PURE__*/React.createElement("br", {
+  }, "Dr."), "MUFTI MOHAMMAD MUJAHID ", /*#__PURE__*/React.createElement("br", {
     className: "hidden md:block"
   }), " ALI QASMI"), /*#__PURE__*/React.createElement("div", {
     className: "max-w-3xl mx-auto bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-3xl mb-10 shadow-2xl"
@@ -933,7 +933,7 @@ function App() {
     className: "text-center z-10"
   }, /*#__PURE__*/React.createElement("div", {
     className: "text-amber-400 font-bold text-lg mb-1 tracking-widest uppercase"
-  }, "Dr. Mufti"), /*#__PURE__*/React.createElement("div", {
+  }, "Dr. Mufti Mohammad"), /*#__PURE__*/React.createElement("div", {
     className: "text-white font-serif font-bold text-2xl drop-shadow-lg"
   }, "Mujahid Ali Qasmi"), /*#__PURE__*/React.createElement("div", {
     className: "w-12 h-1 bg-amber-500/50 mx-auto mt-4 rounded-full"
@@ -943,7 +943,7 @@ function App() {
     className: "inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-amber-400 text-sm font-bold tracking-widest mb-6"
   }, "BIOGRAPHY"), /*#__PURE__*/React.createElement("h2", {
     className: "text-3xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight"
-  }, "Dr. MUFTI MUJAHID ALI QASMI"), /*#__PURE__*/React.createElement("div", {
+  }, "Dr. MUFTI MOHAMMAD MUJAHID ALI QASMI"), /*#__PURE__*/React.createElement("div", {
     className: "space-y-6 text-emerald-50/80 text-lg leading-relaxed mb-10"
   }, /*#__PURE__*/React.createElement("p", null, "A dedicated Islamic scholar committed to spreading the authentic teachings of Islam. With a profound understanding of classical texts, he bridges the gap between historical wisdom and contemporary challenges."), /*#__PURE__*/React.createElement("p", null, "He regularly delivers Friday sermons (Khutbahs) at ", /*#__PURE__*/React.createElement("span", {
     className: "text-amber-300 font-semibold"
@@ -996,7 +996,7 @@ function App() {
     className: "text-3xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight"
   }, "Send a Message"), /*#__PURE__*/React.createElement("p", {
     className: "text-emerald-100/70 text-lg mb-10 leading-relaxed"
-  }, "If you have a question regarding a specific Masail, or wish to invite Mufti Sahab for a Bayan, please send a message using the secure form.")), /*#__PURE__*/React.createElement("div", {
+  }, "If you have a question regarding a specific Masail, or wish to invite Mufti Mohammad Sahab for a Bayan, please send a message using the secure form.")), /*#__PURE__*/React.createElement("div", {
     className: "lg:w-7/12"
   }, /*#__PURE__*/React.createElement("div", {
     className: "bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 shadow-2xl relative overflow-hidden"
@@ -1100,7 +1100,7 @@ function App() {
     className: "w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-emerald-950 font-serif font-bold text-xl shadow-lg cursor-pointer"
   }, "MQ"), /*#__PURE__*/React.createElement("span", {
     className: "font-serif font-bold text-xl text-white cursor-pointer"
-  }, "Dr. Mufti Mujahid Ali")), /*#__PURE__*/React.createElement("p", {
+  }, "Dr. Mufti Mohammad Mujahid Ali")), /*#__PURE__*/React.createElement("p", {
     className: "text-emerald-100/60 text-sm leading-relaxed max-w-sm"
   }, "Dedicated to providing authentic Islamic knowledge, daily guidance, and spiritual awakening through the teachings of Quran and Sunnah.")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h4", {
     className: "text-white font-bold text-lg mb-6"
@@ -1143,7 +1143,7 @@ function App() {
     className: "fa-solid fa-envelope text-amber-400 w-4"
   }), " muftimujahid@gmail.com"))), /*#__PURE__*/React.createElement("div", {
     className: "border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-emerald-100/40"
-  }, /*#__PURE__*/React.createElement("p", null, "\xA9 ", new Date().getFullYear(), " Dr. Mufti Mujahid Ali Qasmi. All rights reserved.")))));
+  }, /*#__PURE__*/React.createElement("p", null, "\xA9 ", new Date().getFullYear(), " Dr. Mufti Mohammad Mujahid Ali Qasmi. All rights reserved.")))));
 }
 var root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(/*#__PURE__*/React.createElement(App, null));

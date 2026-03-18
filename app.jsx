@@ -352,7 +352,7 @@ const { useState, useEffect, useRef } = React;
                                     <div className="bg-gradient-to-r from-emerald-900 to-teal-900 border-x border-b border-white/20 rounded-b-2xl md:rounded-b-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl">
                                         <div className="flex-1 text-center sm:text-left">
                                             <h3 className="text-xl md:text-2xl font-bold text-white mb-2 font-serif">Enjoying the video?</h3>
-                                            <p className="text-emerald-100/80 text-sm md:text-base">Subscribe to Dr. Mufti Mujahid Ali Qasmi's channel for daily guidance and authentic Islamic knowledge.</p>
+                                            <p className="text-emerald-100/80 text-sm md:text-base">Subscribe to Dr. Mufti Mohammad Mujahid Ali Qasmi's channel for daily guidance and authentic Islamic knowledge.</p>
                                         </div>
                                         <a href="https://www.youtube.com/@drmuftimujahid?sub_confirmation=1" target="_blank" rel="noreferrer" className="flex-shrink-0 bg-red-600 hover:bg-red-500 text-white px-8 py-3 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] hover:scale-105 flex items-center gap-2">
                                             <i className="fa-brands fa-youtube text-xl"></i> Subscribe Now
@@ -369,7 +369,7 @@ const { useState, useEffect, useRef } = React;
                             <div className={`flex justify-between items-center transition-all duration-300 ${isScrolled ? 'bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] rounded-2xl px-6 py-3' : ''}`}>
                                 <div className="flex items-center gap-3 cursor-pointer" onClick={(e) => scrollToSection(e, 'home')}>
                                     <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-emerald-950 font-serif font-bold text-xl shadow-lg">MQ</div>
-                                    <span className="font-serif font-bold text-lg md:text-xl tracking-wide text-white drop-shadow-md">Dr. Mufti Mujahid Ali Qasmi</span>
+                                    <span className="font-serif font-bold text-lg md:text-xl tracking-wide text-white drop-shadow-md">Dr. Mufti Mohammad Mujahid Ali Qasmi</span>
                                 </div>
 
                                 <div className="hidden md:flex items-center space-x-8">
@@ -447,7 +447,7 @@ const { useState, useEffect, useRef } = React;
                             </div>
                             <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-6 leading-tight drop-shadow-2xl">
                                 <span className="block text-amber-400/90 text-2xl md:text-4xl mb-2 tracking-widest uppercase">Dr.</span>
-                                MUFTI MUJAHID <br className="hidden md:block"/> ALI QASMI
+                                MUFTI MOHAMMAD MUJAHID <br className="hidden md:block"/> ALI QASMI
                             </h1>
                             <div className="max-w-3xl mx-auto bg-white/5 backdrop-blur-sm border border-white/10 p-6 rounded-3xl mb-10 shadow-2xl">
                                 <p className="text-lg md:text-xl text-emerald-50/90 leading-relaxed font-light">
@@ -642,7 +642,7 @@ const { useState, useEffect, useRef } = React;
                                                 MQ
                                             </div>
                                             <div className="text-center z-10">
-                                                <div className="text-amber-400 font-bold text-lg mb-1 tracking-widest uppercase">Dr. Mufti</div>
+                                                <div className="text-amber-400 font-bold text-lg mb-1 tracking-widest uppercase">Dr. Mufti Mohammad</div>
                                                 <div className="text-white font-serif font-bold text-2xl drop-shadow-lg">Mujahid Ali Qasmi</div>
                                                 <div className="w-12 h-1 bg-amber-500/50 mx-auto mt-4 rounded-full"></div>
                                             </div>
@@ -650,7 +650,7 @@ const { useState, useEffect, useRef } = React;
                                     </div>
                                     <div className="lg:w-1/2">
                                         <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-amber-400 text-sm font-bold tracking-widest mb-6">BIOGRAPHY</div>
-                                        <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">Dr. MUFTI MUJAHID ALI QASMI</h2>
+                                        <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">Dr. MUFTI MOHAMMAD MUJAHID ALI QASMI</h2>
                                         <div className="space-y-6 text-emerald-50/80 text-lg leading-relaxed mb-10">
                                             <p>A dedicated Islamic scholar committed to spreading the authentic teachings of Islam. With a profound understanding of classical texts, he bridges the gap between historical wisdom and contemporary challenges.</p>
                                             <p>He regularly delivers Friday sermons (Khutbahs) at <span className="text-amber-300 font-semibold">Masjid E Rahmath</span> in Banjara Hills, Hyderabad, and conducts special lectures at institutions like <span className="text-amber-300 font-semibold">Misbah Ul Uloom</span>. His teachings cover a wide array of subjects including Fiqh (Jurisprudence), Tafseer (Quranic Exegesis), and Hadees.</p>
@@ -696,7 +696,7 @@ const { useState, useEffect, useRef } = React;
                                 <div className="lg:w-5/12">
                                     <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-amber-400 text-sm font-bold tracking-widest mb-6">GET IN TOUCH</div>
                                     <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">Send a Message</h2>
-                                    <p className="text-emerald-100/70 text-lg mb-10 leading-relaxed">If you have a question regarding a specific Masail, or wish to invite Mufti Sahab for a Bayan, please send a message using the secure form.</p>
+                                    <p className="text-emerald-100/70 text-lg mb-10 leading-relaxed">If you have a question regarding a specific Masail, or wish to invite Mufti Mohammad Sahab for a Bayan, please send a message using the secure form.</p>
                                 </div>
                                 <div className="lg:w-7/12">
                                     <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 shadow-2xl relative overflow-hidden">
@@ -762,7 +762,7 @@ const { useState, useEffect, useRef } = React;
                                 <div>
                                     <div className="flex items-center gap-3 mb-6" onClick={(e) => scrollToSection(e, 'home')}>
                                         <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-emerald-950 font-serif font-bold text-xl shadow-lg cursor-pointer">MQ</div>
-                                        <span className="font-serif font-bold text-xl text-white cursor-pointer">Dr. Mufti Mujahid Ali</span>
+                                        <span className="font-serif font-bold text-xl text-white cursor-pointer">Dr. Mufti Mohammad Mujahid Ali</span>
                                     </div>
                                     <p className="text-emerald-100/60 text-sm leading-relaxed max-w-sm">Dedicated to providing authentic Islamic knowledge, daily guidance, and spiritual awakening through the teachings of Quran and Sunnah.</p>
                                 </div>
@@ -791,7 +791,7 @@ const { useState, useEffect, useRef } = React;
                                 </div>
                             </div>
                             <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-emerald-100/40">
-                                <p>&copy; {new Date().getFullYear()} Dr. Mufti Mujahid Ali Qasmi. All rights reserved.</p>
+                                <p>&copy; {new Date().getFullYear()} Dr. Mufti Mohammad Mujahid Ali Qasmi. All rights reserved.</p>
                             </div>
                         </div>
                     </footer>
