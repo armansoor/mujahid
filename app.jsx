@@ -72,6 +72,41 @@ const { useState, useEffect, useRef } = React;
             const [stats, setStats] = useState({ subscriberCount: null, viewCount: null, videoCount: null });
 
             useEffect(() => {
+                const addGoogleTranslateScript = () => {
+                    const scriptId = 'google-translate-script';
+                    if (!document.getElementById(scriptId)) {
+                        const script = document.createElement('script');
+                        script.id = scriptId;
+                        script.type = 'text/javascript';
+                        script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+                        script.async = true;
+                        document.body.appendChild(script);
+
+                        window.googleTranslateElementInit = () => {
+                            if (window.google && window.google.translate) {
+                                if (document.getElementById('google_translate_element')) {
+                                    new window.google.translate.TranslateElement({
+                                        pageLanguage: 'en',
+                                        includedLanguages: 'ur,en',
+                                        layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
+                                    }, 'google_translate_element');
+                                }
+                                if (document.getElementById('google_translate_element_mobile')) {
+                                    new window.google.translate.TranslateElement({
+                                        pageLanguage: 'en',
+                                        includedLanguages: 'ur,en',
+                                        layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
+                                    }, 'google_translate_element_mobile');
+                                }
+                            }
+                        };
+                    }
+                };
+
+                addGoogleTranslateScript();
+            }, []);
+
+            useEffect(() => {
                 const fetchStats = async () => {
                     try {
                         const response = await fetch('https://api.socialcounts.org/youtube-live-subscriber-count/UCOsM3EhSrxLLbYSukirSytw');
@@ -242,7 +277,7 @@ const { useState, useEffect, useRef } = React;
 
             const categories = [
                 { title: 'Dars-e-Nizami', icon: 'fa-book-open', desc: 'Deep dives into classical Islamic texts like Hidaya and Noor ul Anwaar.', link: 'https://www.youtube.com/@drmuftimujahid/playlists' },
-                { title: 'Juma Bayans', icon: 'fa-users', desc: 'Friday khutbahs and sermons delivered at Masjid E Rahmath.', link: 'https://www.youtube.com/@drmuftimujahid/playlists' },
+                { title: 'Juma Bayans', icon: 'fa-users', desc: 'Friday khutbahs and sermons delivered at Masjid E Rahmath.', link: 'https://m.youtube.com/playlist?list=PLK_7akT-u6Cgkx6OQ3hZz4vsjyD-2vaAs' },
                 { title: 'Dars-e-Hadees', icon: 'fa-bookmark', desc: 'Short episodes and practical sessions on prophetic traditions.', link: 'https://www.youtube.com/@drmuftimujahid/playlists' },
                 { title: 'Daily Masail', icon: 'fa-heart', desc: 'Practical guidance explaining the rulings of Islam for daily life.', link: 'https://www.youtube.com/@drmuftimujahid/playlists' }
             ];
@@ -298,17 +333,23 @@ const { useState, useEffect, useRef } = React;
                                     <a href="https://www.youtube.com/@drmuftimujahid?sub_confirmation=1" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-full font-medium flex items-center gap-2 transition-all shadow-lg hover:shadow-white/10">
                                         <i className="fa-brands fa-youtube text-red-500 text-lg"></i> Subscribe
                                     </a>
+                                    <div className="hidden lg:block">
+                                        <div id="google_translate_element" className="translate-widget min-w-[120px] bg-white/10 backdrop-blur-md rounded-lg overflow-hidden border border-white/20"></div>
+                                    </div>
                                 </div>
 
-                                <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-                                    <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-2xl`}></i>
-                                </button>
+                                <div className="md:hidden flex items-center gap-4">
+                                    <button className="text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                                        <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-2xl`}></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
+
                         {/* Mobile Menu */}
                         {mobileMenuOpen && (
-                            <div className="md:hidden absolute top-full left-4 right-4 mt-2 bg-emerald-950/95 backdrop-blur-2xl border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] rounded-2xl py-6 flex flex-col items-center space-y-5">
+                            <div className="md:hidden absolute top-full left-4 right-4 mt-2 bg-emerald-950/95 backdrop-blur-2xl border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] rounded-2xl py-6 flex flex-col items-center space-y-5 z-50">
                                 {['home', 'latest', 'programs', 'services', 'about', 'contact'].map((item) => (
                                     <a key={item} href={`#${item}`} onClick={(e) => scrollToSection(e, item)} className={`text-lg font-medium capitalize ${activeSection === item ? 'text-amber-400' : 'text-white'}`}>
                                         {item === 'latest' ? 'Latest Videos' : item}
@@ -320,6 +361,11 @@ const { useState, useEffect, useRef } = React;
                             </div>
                         )}
                     </nav>
+
+                    {/* Fixed Floating Mobile Translate Widget */}
+                    <div className="lg:hidden fixed bottom-6 right-4 z-[60] bg-emerald-950/90 backdrop-blur-md p-1.5 rounded-xl shadow-2xl border border-white/20 scale-90 origin-bottom-right">
+                        <div id="google_translate_element_mobile" className="translate-widget"></div>
+                    </div>
 
                     {/* Hero Section */}
                     <section id="home" className="relative pt-40 pb-20 md:pt-52 md:pb-32 overflow-hidden z-10">
@@ -347,7 +393,7 @@ const { useState, useEffect, useRef } = React;
                             </div>
 
                             {/* Live Stats Section */}
-                            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 mt-12 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl py-6 px-8 shadow-xl">
+                            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 mt-12 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl py-6 px-8 shadow-xl notranslate">
                                 <div className="flex flex-col items-center">
                                     <span className="text-3xl md:text-4xl font-bold text-white mb-1 drop-shadow-md">
                                         <AnimatedCounter value={stats.subscriberCount} duration={2000} />
@@ -422,7 +468,7 @@ const { useState, useEffect, useRef } = React;
                                                 </div>
                                             </div>
                                             <div className="p-6 pt-2 flex flex-col flex-grow relative z-10">
-                                                <h3 className="font-bold text-xl text-white line-clamp-2 mb-4 group-hover:text-amber-300 transition-colors leading-snug">{video.title}</h3>
+                                                <h3 className="font-bold text-xl text-white line-clamp-2 mb-4 group-hover:text-amber-300 transition-colors leading-snug notranslate">{video.title}</h3>
                                                 <div className="mt-auto flex items-center justify-between">
                                                     <div className="flex items-center gap-2 text-sm text-emerald-100/60 font-medium bg-white/5 px-3 py-1.5 rounded-full border border-white/5">
                                                         <i className="fa-regular fa-clock"></i> {video.date}
