@@ -1,6 +1,63 @@
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef } = React;
 
         const CHANNEL_ID = 'UCOsM3EhSrxLLbYSukirSytw';
+
+        function AnimatedCounter({ value, duration = 1500 }) {
+            const [count, setCount] = useState(0);
+            const counterRef = useRef(null);
+            const [hasAnimated, setHasAnimated] = useState(false);
+
+            useEffect(() => {
+                if (value === null || value === undefined) return;
+
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        const [entry] = entries;
+                        if (entry.isIntersecting && !hasAnimated) {
+                            let start = null;
+                            const targetValue = parseInt(value, 10);
+
+                            const step = (timestamp) => {
+                                if (!start) start = timestamp;
+                                const progress = timestamp - start;
+
+                                // Ease-out effect
+                                const easeOutQuart = 1 - Math.pow(1 - progress / duration, 4);
+
+                                const currentCount = Math.min(
+                                    Math.floor(targetValue * easeOutQuart),
+                                    targetValue
+                                );
+
+                                setCount(currentCount);
+
+                                if (progress < duration) {
+                                    requestAnimationFrame(step);
+                                } else {
+                                    setCount(targetValue);
+                                    setHasAnimated(true);
+                                }
+                            };
+
+                            requestAnimationFrame(step);
+                            observer.disconnect();
+                        }
+                    },
+                    { threshold: 0.1 }
+                );
+
+                if (counterRef.current) {
+                    observer.observe(counterRef.current);
+                }
+
+                return () => observer.disconnect();
+            }, [value, duration, hasAnimated]);
+
+            // Add comma separators for readability (e.g. 3,842)
+            const formattedCount = new Intl.NumberFormat().format(count);
+
+            return <span ref={counterRef}>{value === null ? '...' : formattedCount}</span>;
+        }
 
         function App() {
             const [isScrolled, setIsScrolled] = useState(false);
@@ -183,13 +240,6 @@ const { useState, useEffect } = React;
             }, [activeVideoId]);
 
 
-            const formatNumber = (num) => {
-                if (!num) return '...';
-                if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-                if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-                return num.toString();
-            };
-
             const categories = [
                 { title: 'Dars-e-Nizami', icon: 'fa-book-open', desc: 'Deep dives into classical Islamic texts like Hidaya and Noor ul Anwaar.', link: 'https://www.youtube.com/@drmuftimujahid/playlists' },
                 { title: 'Juma Bayans', icon: 'fa-users', desc: 'Friday khutbahs and sermons delivered at Masjid E Rahmath.', link: 'https://www.youtube.com/@drmuftimujahid/playlists' },
@@ -299,21 +349,27 @@ const { useState, useEffect } = React;
                             {/* Live Stats Section */}
                             <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 mt-12 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl py-6 px-8 shadow-xl">
                                 <div className="flex flex-col items-center">
-                                    <span className="text-3xl md:text-4xl font-bold text-white mb-1 drop-shadow-md">{formatNumber(stats.subscriberCount)}</span>
+                                    <span className="text-3xl md:text-4xl font-bold text-white mb-1 drop-shadow-md">
+                                        <AnimatedCounter value={stats.subscriberCount} duration={2000} />
+                                    </span>
                                     <span className="text-amber-400 text-sm font-semibold tracking-wider uppercase flex items-center gap-2">
                                         <i className="fa-brands fa-youtube text-red-500"></i> Subscribers
                                     </span>
                                 </div>
                                 <div className="hidden md:block w-px h-12 bg-white/20"></div>
                                 <div className="flex flex-col items-center">
-                                    <span className="text-3xl md:text-4xl font-bold text-white mb-1 drop-shadow-md">{formatNumber(stats.viewCount)}</span>
+                                    <span className="text-3xl md:text-4xl font-bold text-white mb-1 drop-shadow-md">
+                                        <AnimatedCounter value={stats.viewCount} duration={2000} />
+                                    </span>
                                     <span className="text-teal-400 text-sm font-semibold tracking-wider uppercase flex items-center gap-2">
                                         <i className="fa-solid fa-eye text-emerald-500"></i> Total Views
                                     </span>
                                 </div>
                                 <div className="hidden md:block w-px h-12 bg-white/20"></div>
                                 <div className="flex flex-col items-center">
-                                    <span className="text-3xl md:text-4xl font-bold text-white mb-1 drop-shadow-md">{formatNumber(stats.videoCount)}</span>
+                                    <span className="text-3xl md:text-4xl font-bold text-white mb-1 drop-shadow-md">
+                                        <AnimatedCounter value={stats.videoCount} duration={2000} />
+                                    </span>
                                     <span className="text-purple-400 text-sm font-semibold tracking-wider uppercase flex items-center gap-2">
                                         <i className="fa-solid fa-video text-purple-500"></i> Videos
                                     </span>
