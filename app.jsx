@@ -68,6 +68,10 @@ const { useState, useEffect, useRef } = React;
             const [activeVideoId, setActiveVideoId] = useState(null);
             const [formStatus, setFormStatus] = useState('idle');
             const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+            const [fabMenuOpen, setFabMenuOpen] = useState(false);
+            const [heroVideoInView, setHeroVideoInView] = useState(false);
+            const heroVideoRef = React.useRef(null);
+            const [isMiniPlayer, setIsMiniPlayer] = useState(false);
 
             const getCookie = (name) => {
                 const value = `; ${document.cookie}`;
@@ -144,8 +148,11 @@ const { useState, useEffect, useRef } = React;
                 const handleScroll = () => {
                     setIsScrolled(window.scrollY > 50);
                 };
+
                 window.addEventListener('scroll', handleScroll, { passive: true });
-                return () => window.removeEventListener('scroll', handleScroll);
+                return () => {
+                    window.removeEventListener('scroll', handleScroll);
+                }
             }, []);
 
             useEffect(() => {
@@ -284,8 +291,17 @@ const { useState, useEffect, useRef } = React;
             };
 
             useEffect(() => {
-                if (activeVideoId) document.body.style.overflow = 'hidden';
-                else document.body.style.overflow = 'auto';
+                const handleScrollForMiniPlayer = () => {
+                    if (activeVideoId) {
+                        if (window.scrollY > 150) {
+                            setIsMiniPlayer(true);
+                        } else {
+                            setIsMiniPlayer(false);
+                        }
+                    }
+                };
+                window.addEventListener('scroll', handleScrollForMiniPlayer, { passive: true });
+                return () => window.removeEventListener('scroll', handleScrollForMiniPlayer);
             }, [activeVideoId]);
 
 
@@ -318,12 +334,17 @@ const { useState, useEffect, useRef } = React;
 
                     {/* Video Player Modal */}
                     {activeVideoId && (
-                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-                            <div className="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer" onClick={() => setActiveVideoId(null)}></div>
-                            <div className="relative w-full max-w-5xl bg-black rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-white/20 z-10 aspect-video transition-all">
-                                <button onClick={() => setActiveVideoId(null)} className="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors border border-white/20">
-                                    <i className="fa-solid fa-xmark text-lg"></i>
+                        <div className={`fixed z-[100] transition-all duration-500 ${isMiniPlayer ? 'bottom-24 right-6 w-80 shadow-2xl rounded-xl overflow-hidden border border-white/20' : 'inset-0 flex items-center justify-center p-4 sm:p-6'}`}>
+                            {!isMiniPlayer && <div className="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer" onClick={() => { setActiveVideoId(null); setIsMiniPlayer(false); }}></div>}
+                            <div className={`relative bg-black shadow-2xl border border-white/20 z-10 aspect-video transition-all ${isMiniPlayer ? 'w-full h-full' : 'w-full max-w-5xl rounded-2xl md:rounded-3xl overflow-hidden'}`}>
+                                <button onClick={() => { setActiveVideoId(null); setIsMiniPlayer(false); }} className={`absolute z-20 bg-black/50 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors border border-white/20 ${isMiniPlayer ? 'top-2 right-2 w-6 h-6' : 'top-4 right-4 w-10 h-10'}`}>
+                                    <i className={`fa-solid fa-xmark ${isMiniPlayer ? 'text-sm' : 'text-lg'}`}></i>
                                 </button>
+                                {isMiniPlayer && (
+                                    <button onClick={() => { setIsMiniPlayer(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="absolute top-2 left-2 z-20 w-6 h-6 bg-black/50 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center transition-colors border border-white/20">
+                                        <i className="fa-solid fa-expand text-xs"></i>
+                                    </button>
+                                )}
                                 <iframe loading="lazy" src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full"></iframe>
                             </div>
                         </div>
@@ -420,7 +441,7 @@ const { useState, useEffect, useRef } = React;
                                     Guiding souls through the light of Quran & Sunnah. Join for deep insights into classical Islamic texts, daily spiritual guidance, and profound Friday sermons.
                                 </p>
                             </div>
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full sm:w-auto">
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full sm:w-auto mb-12">
                                 <button onClick={() => { if(latestVideos.length > 0) setActiveVideoId(latestVideos[0].id); else scrollToSection({preventDefault: ()=>{}}, 'latest'); }} className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-400 text-emerald-950 px-8 py-4 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(251,191,36,0.4)] hover:shadow-[0_0_30px_rgba(251,191,36,0.6)] hover:scale-105 flex items-center justify-center gap-2">
                                     <i className="fa-regular fa-circle-play text-xl"></i> Watch Latest Bayan
                                 </button>
@@ -428,6 +449,27 @@ const { useState, useEffect, useRef } = React;
                                     <i className="fa-brands fa-youtube text-red-500 text-xl"></i> Explore Channel
                                 </a>
                             </div>
+
+                            {/* Auto-play Latest Video in Hero */}
+                            {latestVideos.length > 0 && (
+                                <div className="max-w-4xl mx-auto w-full mb-12 relative group cursor-pointer" onClick={() => setActiveVideoId(latestVideos[0].id)}>
+                                    <div className="absolute -inset-1 bg-gradient-to-r from-amber-400 to-amber-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                                    <div className="relative bg-emerald-900 ring-1 ring-white/10 rounded-2xl overflow-hidden shadow-2xl">
+                                        <div className="aspect-video w-full relative">
+                                            <img src={latestVideos[0].thumbnail} alt={latestVideos[0].title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+                                            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500 flex items-center justify-center">
+                                                <div className="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.6)] transform group-hover:scale-110 transition-transform duration-300">
+                                                    <i className="fa-solid fa-play text-3xl text-white ml-2"></i>
+                                                </div>
+                                            </div>
+                                            <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-left">
+                                                <div className="inline-block px-3 py-1 bg-red-600 text-white text-xs font-bold rounded mb-2">LATEST</div>
+                                                <h3 className="text-white font-bold text-xl md:text-2xl line-clamp-2 drop-shadow-lg">{latestVideos[0].title}</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Live Stats Section */}
                             <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 mt-12 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl py-6 px-8 shadow-xl notranslate">
@@ -676,6 +718,29 @@ const { useState, useEffect, useRef } = React;
                             </div>
                         </div>
                     </section>
+
+                    {/* Floating Action Button (FAB) */}
+                    <div className="fixed bottom-6 right-6 z-[90] flex flex-col items-end gap-3 notranslate">
+                        {/* FAB Menu */}
+                        <div className={`flex flex-col gap-3 transition-all duration-300 origin-bottom ${fabMenuOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}>
+                            <a href="https://wa.me/919700440940" target="_blank" rel="noreferrer" className="flex items-center gap-3 group">
+                                <span className="bg-white/90 text-emerald-950 px-3 py-1.5 rounded-lg text-sm font-bold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">WhatsApp</span>
+                                <div className="w-12 h-12 bg-green-500 hover:bg-green-400 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110">
+                                    <i className="fa-brands fa-whatsapp text-2xl"></i>
+                                </div>
+                            </a>
+                            <button onClick={(e) => { setFabMenuOpen(false); scrollToSection(e, 'contact'); }} className="flex items-center gap-3 group">
+                                <span className="bg-white/90 text-emerald-950 px-3 py-1.5 rounded-lg text-sm font-bold shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Contact Form</span>
+                                <div className="w-12 h-12 bg-amber-500 hover:bg-amber-400 text-white rounded-full flex items-center justify-center shadow-lg transition-transform hover:scale-110">
+                                    <i className="fa-solid fa-envelope text-xl"></i>
+                                </div>
+                            </button>
+                        </div>
+                        {/* Main FAB Toggle */}
+                        <button onClick={() => setFabMenuOpen(!fabMenuOpen)} className="w-14 h-14 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.4)] hover:shadow-[0_0_30px_rgba(16,185,129,0.6)] hover:scale-105 transition-all border border-white/20">
+                            <i className={`fa-solid ${fabMenuOpen ? 'fa-xmark' : 'fa-message'} text-2xl transition-transform ${fabMenuOpen ? 'rotate-90' : 'rotate-0'}`}></i>
+                        </button>
+                    </div>
 
                     {/* Footer */}
                     <footer className="relative z-10 border-t border-white/10 bg-black/40 backdrop-blur-lg pt-16 pb-8">
