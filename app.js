@@ -527,7 +527,9 @@ function App() {
       setIsMiniPlayer(false);
     }
   }), /*#__PURE__*/React.createElement("div", {
-    className: "relative bg-black shadow-2xl border border-white/20 z-10 aspect-video transition-all ".concat(isMiniPlayer ? 'w-full h-full' : 'w-full max-w-5xl rounded-2xl md:rounded-3xl overflow-hidden')
+    className: "relative flex flex-col z-10 transition-all ".concat(isMiniPlayer ? 'w-full h-full' : 'w-full max-w-5xl')
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "relative bg-black shadow-2xl border border-white/20 aspect-video w-full overflow-hidden ".concat(isMiniPlayer ? 'rounded-xl h-full' : 'rounded-t-2xl md:rounded-t-3xl')
   }, /*#__PURE__*/React.createElement("button", {
     onClick: function onClick() {
       setActiveVideoId(null);
@@ -555,7 +557,22 @@ function App() {
     allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
     allowFullScreen: true,
     className: "w-full h-full"
-  }))), /*#__PURE__*/React.createElement("nav", {
+  })), !isMiniPlayer && /*#__PURE__*/React.createElement("div", {
+    className: "bg-gradient-to-r from-emerald-900 to-teal-900 border-x border-b border-white/20 rounded-b-2xl md:rounded-b-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex-1 text-center sm:text-left"
+  }, /*#__PURE__*/React.createElement("h3", {
+    className: "text-xl md:text-2xl font-bold text-white mb-2 font-serif"
+  }, "Enjoying the video?"), /*#__PURE__*/React.createElement("p", {
+    className: "text-emerald-100/80 text-sm md:text-base"
+  }, "Subscribe to Dr. Mufti Mujahid Ali Qasmi's channel for daily guidance and authentic Islamic knowledge.")), /*#__PURE__*/React.createElement("a", {
+    href: "https://www.youtube.com/@drmuftimujahid?sub_confirmation=1",
+    target: "_blank",
+    rel: "noreferrer",
+    className: "flex-shrink-0 bg-red-600 hover:bg-red-500 text-white px-8 py-3 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] hover:scale-105 flex items-center gap-2"
+  }, /*#__PURE__*/React.createElement("i", {
+    className: "fa-brands fa-youtube text-xl"
+  }), " Subscribe Now")))), /*#__PURE__*/React.createElement("nav", {
     className: "fixed w-full z-50 transition-all duration-300 ".concat(isScrolled ? 'py-3' : 'py-6')
   }, /*#__PURE__*/React.createElement("div", {
     className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"

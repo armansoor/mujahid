@@ -336,16 +336,29 @@ const { useState, useEffect, useRef } = React;
                     {activeVideoId && (
                         <div className={`fixed z-[100] transition-all duration-500 ${isMiniPlayer ? 'bottom-24 right-6 w-80 shadow-2xl rounded-xl overflow-hidden border border-white/20' : 'inset-0 flex items-center justify-center p-4 sm:p-6'}`}>
                             {!isMiniPlayer && <div className="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer" onClick={() => { setActiveVideoId(null); setIsMiniPlayer(false); }}></div>}
-                            <div className={`relative bg-black shadow-2xl border border-white/20 z-10 aspect-video transition-all ${isMiniPlayer ? 'w-full h-full' : 'w-full max-w-5xl rounded-2xl md:rounded-3xl overflow-hidden'}`}>
-                                <button onClick={() => { setActiveVideoId(null); setIsMiniPlayer(false); }} className={`absolute z-20 bg-black/50 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors border border-white/20 ${isMiniPlayer ? 'top-2 right-2 w-6 h-6' : 'top-4 right-4 w-10 h-10'}`}>
-                                    <i className={`fa-solid fa-xmark ${isMiniPlayer ? 'text-sm' : 'text-lg'}`}></i>
-                                </button>
-                                {isMiniPlayer && (
-                                    <button onClick={() => { setIsMiniPlayer(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="absolute top-2 left-2 z-20 w-6 h-6 bg-black/50 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center transition-colors border border-white/20">
-                                        <i className="fa-solid fa-expand text-xs"></i>
+                            <div className={`relative flex flex-col z-10 transition-all ${isMiniPlayer ? 'w-full h-full' : 'w-full max-w-5xl'}`}>
+                                <div className={`relative bg-black shadow-2xl border border-white/20 aspect-video w-full overflow-hidden ${isMiniPlayer ? 'rounded-xl h-full' : 'rounded-t-2xl md:rounded-t-3xl'}`}>
+                                    <button onClick={() => { setActiveVideoId(null); setIsMiniPlayer(false); }} className={`absolute z-20 bg-black/50 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors border border-white/20 ${isMiniPlayer ? 'top-2 right-2 w-6 h-6' : 'top-4 right-4 w-10 h-10'}`}>
+                                        <i className={`fa-solid fa-xmark ${isMiniPlayer ? 'text-sm' : 'text-lg'}`}></i>
                                     </button>
+                                    {isMiniPlayer && (
+                                        <button onClick={() => { setIsMiniPlayer(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="absolute top-2 left-2 z-20 w-6 h-6 bg-black/50 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center transition-colors border border-white/20">
+                                            <i className="fa-solid fa-expand text-xs"></i>
+                                        </button>
+                                    )}
+                                    <iframe loading="lazy" src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full"></iframe>
+                                </div>
+                                {!isMiniPlayer && (
+                                    <div className="bg-gradient-to-r from-emerald-900 to-teal-900 border-x border-b border-white/20 rounded-b-2xl md:rounded-b-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl">
+                                        <div className="flex-1 text-center sm:text-left">
+                                            <h3 className="text-xl md:text-2xl font-bold text-white mb-2 font-serif">Enjoying the video?</h3>
+                                            <p className="text-emerald-100/80 text-sm md:text-base">Subscribe to Dr. Mufti Mujahid Ali Qasmi's channel for daily guidance and authentic Islamic knowledge.</p>
+                                        </div>
+                                        <a href="https://www.youtube.com/@drmuftimujahid?sub_confirmation=1" target="_blank" rel="noreferrer" className="flex-shrink-0 bg-red-600 hover:bg-red-500 text-white px-8 py-3 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(220,38,38,0.4)] hover:shadow-[0_0_30px_rgba(220,38,38,0.6)] hover:scale-105 flex items-center gap-2">
+                                            <i className="fa-brands fa-youtube text-xl"></i> Subscribe Now
+                                        </a>
+                                    </div>
                                 )}
-                                <iframe loading="lazy" src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full"></iframe>
                             </div>
                         </div>
                     )}
