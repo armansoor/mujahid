@@ -68,7 +68,19 @@ const { useState, useEffect, useRef } = React;
             const [activeVideoId, setActiveVideoId] = useState(null);
             const [formStatus, setFormStatus] = useState('idle');
             const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-            const [currentLanguage, setCurrentLanguage] = useState('en');
+
+            const getCookie = (name) => {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+                return null;
+            };
+
+            const [currentLanguage, setCurrentLanguage] = useState(() => {
+                const gtCookie = getCookie('googtrans');
+                if (gtCookie && gtCookie.endsWith('/ur')) return 'ur';
+                return 'en';
+            });
 
             const [stats, setStats] = useState({ subscriberCount: null, viewCount: null, videoCount: null });
 
@@ -89,7 +101,7 @@ const { useState, useEffect, useRef } = React;
                                     pageLanguage: 'en',
                                     includedLanguages: 'ur,en',
                                     layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
-                                    autoDisplay: false
+                                    autoDisplay: true
                                 }, 'google_translate_element');
                             }
                         };
@@ -100,15 +112,12 @@ const { useState, useEffect, useRef } = React;
             }, []);
 
             const switchLanguage = (langCode) => {
-                setCurrentLanguage(langCode);
+                // Set the googtrans cookie
+                document.cookie = `googtrans=/en/${langCode}; path=/`;
+                document.cookie = `googtrans=/en/${langCode}; domain=${window.location.hostname}; path=/`;
 
-                // Find the hidden Google Translate dropdown and change its value
-                const select = document.querySelector('.goog-te-combo');
-                if (select) {
-                    select.value = langCode;
-                    // Trigger the change event so Google Translate picks up the change
-                    select.dispatchEvent(new Event('change'));
-                }
+                // Reload the page to apply the translation via Google Translate's auto-initialization
+                window.location.reload();
             };
 
             useEffect(() => {
