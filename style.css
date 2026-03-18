@@ -4,3 +4,20 @@
 ::-webkit-scrollbar-thumb { background: #065f46; border-radius: 5px; }
 ::-webkit-scrollbar-thumb:hover { background: #047857; }
 html { scroll-behavior: smooth; }
+
+/* Hide Google Translate Default UI completely */
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+body {
+    top: 0px !important;
+}
+
+#goog-gt-tt, .goog-te-balloon-frame {
+    display: none !important;
+}
+.goog-text-highlight {
+    background: none !important;
+    box-shadow: none !important;
+}
