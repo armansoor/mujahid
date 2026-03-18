@@ -68,6 +68,7 @@ const { useState, useEffect, useRef } = React;
             const [activeVideoId, setActiveVideoId] = useState(null);
             const [formStatus, setFormStatus] = useState('idle');
             const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+            const [fabOpen, setFabOpen] = useState(false);
 
             const [stats, setStats] = useState({ subscriberCount: null, viewCount: null, videoCount: null });
 
@@ -269,10 +270,30 @@ const { useState, useEffect, useRef } = React;
                 setFormData(prev => ({ ...prev, [name]: value }));
             };
 
+            const [isMiniPlayer, setIsMiniPlayer] = useState(false);
+
             useEffect(() => {
-                if (activeVideoId) document.body.style.overflow = 'hidden';
-                else document.body.style.overflow = 'auto';
-            }, [activeVideoId]);
+                if (activeVideoId && !isMiniPlayer) {
+                    // Do not lock scrolling if we want them to scroll down and trigger the mini player.
+                    // Instead, we will let them scroll naturally.
+                    document.body.style.overflow = 'auto';
+                } else {
+                    document.body.style.overflow = 'auto';
+                }
+
+                const handleScrollForPlayer = () => {
+                    if (activeVideoId) {
+                        if (window.scrollY > 300) {
+                            setIsMiniPlayer(true);
+                        } else {
+                            setIsMiniPlayer(false);
+                        }
+                    }
+                };
+
+                window.addEventListener('scroll', handleScrollForPlayer, { passive: true });
+                return () => window.removeEventListener('scroll', handleScrollForPlayer);
+            }, [activeVideoId, isMiniPlayer]);
 
 
             const categories = [
@@ -302,14 +323,23 @@ const { useState, useEffect, useRef } = React;
                         <div className="absolute bottom-[-10%] left-[20%] w-[40rem] h-[40rem] bg-teal-500/20 rounded-full blur-[130px] transform-gpu will-change-transform"></div>
                     </div>
 
-                    {/* Video Player Modal */}
+                    {/* Video Player Modal / Mini Player */}
                     {activeVideoId && (
-                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-                            <div className="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer" onClick={() => setActiveVideoId(null)}></div>
-                            <div className="relative w-full max-w-5xl bg-black rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-white/20 z-10 aspect-video transition-all">
-                                <button onClick={() => setActiveVideoId(null)} className="absolute top-4 right-4 z-20 w-10 h-10 bg-black/50 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors border border-white/20">
-                                    <i className="fa-solid fa-xmark text-lg"></i>
-                                </button>
+                        <div className={`fixed z-[100] transition-all duration-500 ease-in-out ${isMiniPlayer ? 'bottom-24 right-6 w-72 sm:w-96 rounded-2xl shadow-2xl border-2 border-white/20 hover:scale-105' : 'inset-0 flex items-center justify-center p-4 sm:p-6'}`}>
+                            {!isMiniPlayer && (
+                                <div className="absolute inset-0 bg-black/80 backdrop-blur-md cursor-pointer transition-opacity" onClick={() => setActiveVideoId(null)}></div>
+                            )}
+                            <div className={`relative bg-black overflow-hidden z-10 aspect-video transition-all duration-500 ${isMiniPlayer ? 'w-full h-full rounded-xl' : 'w-full max-w-5xl rounded-2xl md:rounded-3xl shadow-2xl border border-white/20'}`}>
+                                <div className="absolute top-2 right-2 z-20 flex gap-2">
+                                    {isMiniPlayer && (
+                                        <button onClick={() => { setIsMiniPlayer(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="w-8 h-8 bg-black/70 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-colors border border-white/20 backdrop-blur-md">
+                                            <i className="fa-solid fa-expand text-xs"></i>
+                                        </button>
+                                    )}
+                                    <button onClick={() => setActiveVideoId(null)} className={`bg-black/70 hover:bg-red-600 text-white rounded-full flex items-center justify-center transition-colors border border-white/20 backdrop-blur-md ${isMiniPlayer ? 'w-8 h-8' : 'w-10 h-10 top-4 right-4 absolute'}`}>
+                                        <i className="fa-solid fa-xmark text-sm"></i>
+                                    </button>
+                                </div>
                                 <iframe loading="lazy" src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full"></iframe>
                             </div>
                         </div>
@@ -367,6 +397,24 @@ const { useState, useEffect, useRef } = React;
                         <div id="google_translate_element_mobile" className="translate-widget"></div>
                     </div>
 
+                    {/* Floating Action Button (FAB) */}
+                    <div className="fixed bottom-6 left-6 z-[60] flex flex-col items-start gap-3">
+                        {/* Menu Options */}
+                        <div className={`flex flex-col gap-3 transition-all duration-300 origin-bottom-left ${fabOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-50 translate-y-10 pointer-events-none'}`}>
+                            <a href="https://wa.me/919700440940?text=Assalamu%20Alaikum%2C%20I%20have%20a%20query..." target="_blank" rel="noreferrer" className="flex items-center gap-3 bg-white text-emerald-950 px-4 py-2 rounded-full font-bold shadow-xl hover:bg-green-100 transition-colors">
+                                <i className="fa-brands fa-whatsapp text-green-500 text-xl"></i> Ask on WhatsApp
+                            </a>
+                            <button onClick={(e) => { setFabOpen(false); scrollToSection(e, 'contact'); }} className="flex items-center gap-3 bg-white text-emerald-950 px-4 py-2 rounded-full font-bold shadow-xl hover:bg-amber-100 transition-colors text-left">
+                                <i className="fa-solid fa-envelope text-amber-500 text-xl"></i> Ask via Form
+                            </button>
+                        </div>
+
+                        {/* Main FAB Toggle */}
+                        <button onClick={() => setFabOpen(!fabOpen)} className="w-14 h-14 bg-gradient-to-tr from-amber-500 to-amber-400 text-emerald-950 rounded-full flex items-center justify-center text-2xl shadow-2xl hover:scale-110 transition-transform border-2 border-white/20">
+                            <i className={`fa-solid transition-transform duration-300 ${fabOpen ? 'fa-xmark rotate-90' : 'fa-comment-dots rotate-0'}`}></i>
+                        </button>
+                    </div>
+
                     {/* Hero Section */}
                     <section id="home" className="relative pt-40 pb-20 md:pt-52 md:pb-32 overflow-hidden z-10">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
@@ -383,9 +431,36 @@ const { useState, useEffect, useRef } = React;
                                     Guiding souls through the light of Quran & Sunnah. Join for deep insights into classical Islamic texts, daily spiritual guidance, and profound Friday sermons.
                                 </p>
                             </div>
+                            <div className="w-full max-w-2xl mx-auto mb-10">
+                                {latestVideos.length > 0 ? (
+                                    <div
+                                        onClick={() => setActiveVideoId(latestVideos[0].id)}
+                                        className="relative w-full aspect-video rounded-3xl overflow-hidden cursor-pointer group shadow-2xl border-4 border-white/10 hover:border-amber-400/50 transition-all duration-300"
+                                    >
+                                        <img
+                                            src={latestVideos[0].thumbnail}
+                                            alt={latestVideos[0].title}
+                                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                        />
+                                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                            <div className="w-20 h-20 bg-red-600/90 backdrop-blur-md rounded-full flex items-center justify-center text-white shadow-[0_0_30px_rgba(220,38,38,0.6)] transform group-hover:scale-110 transition-transform">
+                                                <i className="fa-solid fa-play text-3xl ml-2"></i>
+                                            </div>
+                                        </div>
+                                        <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent">
+                                            <p className="text-white font-bold text-lg line-clamp-1 drop-shadow-md text-left">{latestVideos[0].title}</p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="w-full aspect-video rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center animate-pulse">
+                                        <div className="w-16 h-16 border-4 border-amber-400/30 border-t-amber-400 rounded-full animate-spin"></div>
+                                    </div>
+                                )}
+                            </div>
+
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full sm:w-auto">
-                                <button onClick={() => { if(latestVideos.length > 0) setActiveVideoId(latestVideos[0].id); else scrollToSection({preventDefault: ()=>{}}, 'latest'); }} className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-400 text-emerald-950 px-8 py-4 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(251,191,36,0.4)] hover:shadow-[0_0_30px_rgba(251,191,36,0.6)] hover:scale-105 flex items-center justify-center gap-2">
-                                    <i className="fa-regular fa-circle-play text-xl"></i> Watch Latest Bayan
+                                <button onClick={(e) => scrollToSection(e, 'latest')} className="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-400 text-emerald-950 px-8 py-4 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(251,191,36,0.4)] hover:shadow-[0_0_30px_rgba(251,191,36,0.6)] hover:scale-105 flex items-center justify-center gap-2">
+                                    <i className="fa-solid fa-layer-group text-xl"></i> Browse All Videos
                                 </button>
                                 <a href="https://www.youtube.com/@drmuftimujahid" target="_blank" rel="noreferrer" className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white border border-white/20 px-8 py-4 rounded-full font-bold transition-all backdrop-blur-md flex items-center justify-center gap-2 hover:scale-105">
                                     <i className="fa-brands fa-youtube text-red-500 text-xl"></i> Explore Channel
