@@ -70,6 +70,19 @@ const { useState, useEffect, useRef } = React;
             const [formData, setFormData] = useState({ name: '', email: '', message: '' });
             const [fabOpen, setFabOpen] = useState(false);
 
+            const getCookie = (name) => {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+                return null;
+            };
+
+            const [currentLanguage, setCurrentLanguage] = useState(() => {
+                const gtCookie = getCookie('googtrans');
+                if (gtCookie && gtCookie.endsWith('/ur')) return 'ur';
+                return 'en';
+            });
+
             const [stats, setStats] = useState({ subscriberCount: null, viewCount: null, videoCount: null });
 
             useEffect(() => {
@@ -85,20 +98,12 @@ const { useState, useEffect, useRef } = React;
 
                         window.googleTranslateElementInit = () => {
                             if (window.google && window.google.translate) {
-                                if (document.getElementById('google_translate_element')) {
-                                    new window.google.translate.TranslateElement({
-                                        pageLanguage: 'en',
-                                        includedLanguages: 'ur,en',
-                                        layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
-                                    }, 'google_translate_element');
-                                }
-                                if (document.getElementById('google_translate_element_mobile')) {
-                                    new window.google.translate.TranslateElement({
-                                        pageLanguage: 'en',
-                                        includedLanguages: 'ur,en',
-                                        layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
-                                    }, 'google_translate_element_mobile');
-                                }
+                                new window.google.translate.TranslateElement({
+                                    pageLanguage: 'en',
+                                    includedLanguages: 'ur,en',
+                                    layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+                                    autoDisplay: true
+                                }, 'google_translate_element');
                             }
                         };
                     }
@@ -106,6 +111,15 @@ const { useState, useEffect, useRef } = React;
 
                 addGoogleTranslateScript();
             }, []);
+
+            const switchLanguage = (langCode) => {
+                // Set the googtrans cookie
+                document.cookie = `googtrans=/en/${langCode}; path=/`;
+                document.cookie = `googtrans=/en/${langCode}; domain=${window.location.hostname}; path=/`;
+
+                // Reload the page to apply the translation via Google Translate's auto-initialization
+                window.location.reload();
+            };
 
             useEffect(() => {
                 const fetchStats = async () => {
@@ -363,12 +377,40 @@ const { useState, useEffect, useRef } = React;
                                     <a href="https://www.youtube.com/@drmuftimujahid?sub_confirmation=1" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-5 py-2.5 rounded-full font-medium flex items-center gap-2 transition-all shadow-lg hover:shadow-white/10">
                                         <i className="fa-brands fa-youtube text-red-500 text-lg"></i> Subscribe
                                     </a>
-                                    <div className="hidden lg:block">
-                                        <div id="google_translate_element" className="translate-widget min-w-[120px] bg-white/10 backdrop-blur-md rounded-lg overflow-hidden border border-white/20"></div>
+                                    {/* Desktop Language Switcher */}
+                                    <div className="hidden md:flex items-center bg-white/10 backdrop-blur-md border border-white/20 rounded-full overflow-hidden shadow-lg p-1 ml-2 notranslate">
+                                        <button
+                                            onClick={() => switchLanguage('en')}
+                                            className={`px-3 py-1.5 text-xs font-bold rounded-full transition-all duration-300 ${currentLanguage === 'en' ? 'bg-amber-500 text-emerald-950 shadow-md' : 'text-white/70 hover:text-white'}`}
+                                        >
+                                            EN
+                                        </button>
+                                        <button
+                                            onClick={() => switchLanguage('ur')}
+                                            className={`px-3 py-1.5 text-xs font-bold rounded-full transition-all duration-300 ${currentLanguage === 'ur' ? 'bg-amber-500 text-emerald-950 shadow-md' : 'text-white/70 hover:text-white'}`}
+                                        >
+                                            اردو
+                                        </button>
                                     </div>
+                                    <div id="google_translate_element" className="hidden"></div>
                                 </div>
 
                                 <div className="md:hidden flex items-center gap-4">
+                                    {/* Mobile Language Switcher (Header) */}
+                                    <div className="flex items-center bg-white/10 backdrop-blur-md border border-white/20 rounded-full overflow-hidden p-1 notranslate">
+                                        <button
+                                            onClick={() => switchLanguage('en')}
+                                            className={`px-3 py-1 text-xs font-bold rounded-full transition-all duration-300 ${currentLanguage === 'en' ? 'bg-amber-500 text-emerald-950 shadow-md' : 'text-white/70 hover:text-white'}`}
+                                        >
+                                            EN
+                                        </button>
+                                        <button
+                                            onClick={() => switchLanguage('ur')}
+                                            className={`px-3 py-1 text-xs font-bold rounded-full transition-all duration-300 ${currentLanguage === 'ur' ? 'bg-amber-500 text-emerald-950 shadow-md' : 'text-white/70 hover:text-white'}`}
+                                        >
+                                            اردو
+                                        </button>
+                                    </div>
                                     <button className="text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
                                         <i className={`fa-solid ${mobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-2xl`}></i>
                                     </button>
@@ -414,7 +456,6 @@ const { useState, useEffect, useRef } = React;
                             <i className={`fa-solid transition-transform duration-300 ${fabOpen ? 'fa-xmark rotate-90' : 'fa-comment-dots rotate-0'}`}></i>
                         </button>
                     </div>
-
                     {/* Hero Section */}
                     <section id="home" className="relative pt-40 pb-20 md:pt-52 md:pb-32 overflow-hidden z-10">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">

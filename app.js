@@ -118,14 +118,28 @@ function App() {
     _useState20 = _slicedToArray(_useState19, 2),
     fabOpen = _useState20[0],
     setFabOpen = _useState20[1];
-  var _useState21 = useState({
+  var getCookie = function getCookie(name) {
+    var value = "; ".concat(document.cookie);
+    var parts = value.split("; ".concat(name, "="));
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  };
+  var _useState21 = useState(function () {
+      var gtCookie = getCookie('googtrans');
+      if (gtCookie && gtCookie.endsWith('/ur')) return 'ur';
+      return 'en';
+    }),
+    _useState22 = _slicedToArray(_useState21, 2),
+    currentLanguage = _useState22[0],
+    setCurrentLanguage = _useState22[1];
+  var _useState23 = useState({
       subscriberCount: null,
       viewCount: null,
       videoCount: null
     }),
-    _useState22 = _slicedToArray(_useState21, 2),
-    stats = _useState22[0],
-    setStats = _useState22[1];
+    _useState24 = _slicedToArray(_useState23, 2),
+    stats = _useState24[0],
+    setStats = _useState24[1];
   useEffect(function () {
     var addGoogleTranslateScript = function addGoogleTranslateScript() {
       var scriptId = 'google-translate-script';
@@ -138,26 +152,26 @@ function App() {
         document.body.appendChild(script);
         window.googleTranslateElementInit = function () {
           if (window.google && window.google.translate) {
-            if (document.getElementById('google_translate_element')) {
-              new window.google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'ur,en',
-                layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
-              }, 'google_translate_element');
-            }
-            if (document.getElementById('google_translate_element_mobile')) {
-              new window.google.translate.TranslateElement({
-                pageLanguage: 'en',
-                includedLanguages: 'ur,en',
-                layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
-              }, 'google_translate_element_mobile');
-            }
+            new window.google.translate.TranslateElement({
+              pageLanguage: 'en',
+              includedLanguages: 'ur,en',
+              layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+              autoDisplay: true
+            }, 'google_translate_element');
           }
         };
       }
     };
     addGoogleTranslateScript();
   }, []);
+  var switchLanguage = function switchLanguage(langCode) {
+    // Set the googtrans cookie
+    document.cookie = "googtrans=/en/".concat(langCode, "; path=/");
+    document.cookie = "googtrans=/en/".concat(langCode, "; domain=").concat(window.location.hostname, "; path=/");
+
+    // Reload the page to apply the translation via Google Translate's auto-initialization
+    window.location.reload();
+  };
   useEffect(function () {
     var fetchStats = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
@@ -418,10 +432,10 @@ function App() {
       return _objectSpread(_objectSpread({}, prev), {}, _defineProperty({}, name, value));
     });
   };
-  var _useState23 = useState(false),
-    _useState24 = _slicedToArray(_useState23, 2),
-    isMiniPlayer = _useState24[0],
-    setIsMiniPlayer = _useState24[1];
+  var _useState25 = useState(false),
+    _useState26 = _slicedToArray(_useState25, 2),
+    isMiniPlayer = _useState26[0],
+    setIsMiniPlayer = _useState26[1];
   useEffect(function () {
     if (activeVideoId && !isMiniPlayer) {
       // Do not lock scrolling if we want them to scroll down and trigger the mini player.
@@ -577,13 +591,35 @@ function App() {
   }, /*#__PURE__*/React.createElement("i", {
     className: "fa-brands fa-youtube text-red-500 text-lg"
   }), " Subscribe"), /*#__PURE__*/React.createElement("div", {
-    className: "hidden lg:block"
-  }, /*#__PURE__*/React.createElement("div", {
-    id: "google_translate_element",
-    className: "translate-widget min-w-[120px] bg-white/10 backdrop-blur-md rounded-lg overflow-hidden border border-white/20"
-  }))), /*#__PURE__*/React.createElement("div", {
-    className: "md:hidden flex items-center gap-4"
+    className: "hidden md:flex items-center bg-white/10 backdrop-blur-md border border-white/20 rounded-full overflow-hidden shadow-lg p-1 ml-2 notranslate"
   }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return switchLanguage('en');
+    },
+    className: "px-3 py-1.5 text-xs font-bold rounded-full transition-all duration-300 ".concat(currentLanguage === 'en' ? 'bg-amber-500 text-emerald-950 shadow-md' : 'text-white/70 hover:text-white')
+  }, "EN"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return switchLanguage('ur');
+    },
+    className: "px-3 py-1.5 text-xs font-bold rounded-full transition-all duration-300 ".concat(currentLanguage === 'ur' ? 'bg-amber-500 text-emerald-950 shadow-md' : 'text-white/70 hover:text-white')
+  }, "\u0627\u0631\u062F\u0648")), /*#__PURE__*/React.createElement("div", {
+    id: "google_translate_element",
+    className: "hidden"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "md:hidden flex items-center gap-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center bg-white/10 backdrop-blur-md border border-white/20 rounded-full overflow-hidden p-1 notranslate"
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return switchLanguage('en');
+    },
+    className: "px-3 py-1 text-xs font-bold rounded-full transition-all duration-300 ".concat(currentLanguage === 'en' ? 'bg-amber-500 text-emerald-950 shadow-md' : 'text-white/70 hover:text-white')
+  }, "EN"), /*#__PURE__*/React.createElement("button", {
+    onClick: function onClick() {
+      return switchLanguage('ur');
+    },
+    className: "px-3 py-1 text-xs font-bold rounded-full transition-all duration-300 ".concat(currentLanguage === 'ur' ? 'bg-amber-500 text-emerald-950 shadow-md' : 'text-white/70 hover:text-white')
+  }, "\u0627\u0631\u062F\u0648")), /*#__PURE__*/React.createElement("button", {
     className: "text-white",
     onClick: function onClick() {
       return setMobileMenuOpen(!mobileMenuOpen);
